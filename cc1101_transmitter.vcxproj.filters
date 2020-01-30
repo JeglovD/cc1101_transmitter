@@ -17,5 +17,9 @@
   <ItemGroup>
     <None Include="cc1101_transmitter.ino" />
   </ItemGroup>
- 
+  <ItemGroup>
+    <ClInclude Include="__vm\.cc1101_transmitter.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

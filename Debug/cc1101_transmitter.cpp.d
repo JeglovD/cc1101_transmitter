@@ -11,4 +11,6 @@ C:\Users\DJ\AppData\Local\Temp\VMBuilds\cc1101_transmitter\pro_8MHzatmega328\Deb
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/USBAPI.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\variants\eightanaloginputs/pins_arduino.h \
- c:\program\ files\ (x86)\arduino\hardware\arduino\avr\variants\standard\pins_arduino.h
+ c:\program\ files\ (x86)\arduino\hardware\arduino\avr\variants\standard\pins_arduino.h \
+ C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src/SPI.h \
+ C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h

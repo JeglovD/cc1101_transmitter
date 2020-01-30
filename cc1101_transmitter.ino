@@ -75,13 +75,28 @@ byte CC1101CommandStrobe(const byte& command)
 {
     SPI.beginTransaction(SPISettings());
     digitalWrite(PIN_SPI_SS, LOW);
-    while (digitalRead(PIN_SPI_MISO) == HIGH) // Ждем отклик
-        delay(1);
+    while (digitalRead(PIN_SPI_MISO) == HIGH); // Ждем отклик
+	delay(1);
     byte result{ SPI.transfer(command) };
     digitalWrite(PIN_SPI_SS, HIGH);
     SPI.endTransaction();
     return result;
 }
+
+byte CC1101Read(const byte& address)
+{
+    SPI.beginTransaction(SPISettings());
+    digitalWrite(PIN_SPI_SS, LOW);
+    while (digitalRead(PIN_SPI_MISO) == HIGH);
+    delay(1);
+    SPI.transfer(address | 0xC0);
+    byte result{ SPI.transfer(0) };
+    digitalWrite(PIN_SPI_SS, HIGH);
+    SPI.endTransaction();
+    return result;
+}
+
+//Тут расшифровываем статус байтvoid C1101Status(byte _ST) {    byte _Val = 0;    _Val = _ST & 240;    _Val = _Val >> 4;    _ST = _ST & 14;    _ST = _ST >> 1;    Serial.println("============================");    if (_ST == 0) { Serial.println("IDLE"); }    if (_ST == 1) { Serial.println("RX"); }    if (_ST == 2) { Serial.println("TX"); }    if (_ST == 3) { Serial.println("Fast TX ready"); }    if (_ST == 4) { Serial.println("Frequency synthesizer calibration is running"); }    if (_ST == 5) { Serial.println("PLL is settling"); }    if (_ST == 6) { Serial.println("RX FIFO has overflowed. Read out any useful data, then flush the FIFO with SFRX"); }    if (_ST == 7) { Serial.println("TX FIFO has underflowed. Acknowledge with SFTX"); }    Serial.print("bytes available ");    Serial.println(_Val, DEC);    Serial.println("============================");}
 
 void CC1101SetupTransmitter()
 {
@@ -108,4 +123,12 @@ void setup()
     CC1101SetupTransmitter();
 }
 
-void loop() {}
+void loop() 
+{
+    SPI.beginTransaction(SPISettings());
+    digitalWrite(PIN_SPI_SS, LOW);
+    while (digitalRead(PIN_SPI_MISO) == HIGH); // Ждем ответа
+    delay(1);
+    SPI.transfer(0x3F | 0x40); // Команда на запись в TX FIFO
+    SPI.transfer(4); // Данные    SPI.transfer(2); // Данные    SPI.transfer(3); // Данные    SPI.transfer(5); // Данные    SPI.transfer(6); // Данные    digitalWrite(PIN_SPI_SS, HIGH);    SPI.endTransaction();
+    Serial.println(CC1101Read(0x3A), DEC); //Выводим кол-во байт в ТХ Фифо    C1101Status(CC1101CommandStrobe(STX)); //Запускаем передачу строблом STX и выводим статус байт. всегда пишет андерфловед    Serial.println(CC1101Read(0x3A), DEC); //Опять выводим кол-во байт в ТХ фифо и убеждаемся, что число уменьшилось на число байт в пакете, или 0 - если длина пакета переменная    delay(1);    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее    delay(1);    Serial.println("-----------------------"); //ХЗ.    delay(10);}

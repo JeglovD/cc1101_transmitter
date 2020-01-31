@@ -28,19 +28,31 @@ struct registerSetting_t
     byte data;
 };
 
+
 static const registerSetting_t preferredSettings[] =
 {
-  {CC1101_FIFOTHR,    0x47},
-  {CC1101_FREQ2,      0x10},
-  {CC1101_FREQ1,      0xB0},
-  {CC1101_FREQ0,      0x3F},
-  {CC1101_FSCAL3,     0xEA},
-  {CC1101_FSCAL2,     0x2A},
-  {CC1101_FSCAL1,     0x00},
-  {CC1101_FSCAL0,     0x1F},
-  {CC1101_TEST2,      0x81},
-  {CC1101_TEST1,      0x35},
-  {CC1101_TEST0,      0x09},
+  {CC1101_IOCFG0,      0x06},
+  {CC1101_FIFOTHR,     0x47},
+  {CC1101_PKTCTRL0,    0x07},
+  {CC1101_FSCTRL1,     0x06},
+  {CC1101_FREQ2,       0x10},
+  {CC1101_FREQ1,       0xB0},
+  {CC1101_FREQ0,       0x3F},
+  {CC1101_MDMCFG4,     0xF5},
+  {CC1101_MDMCFG3,     0x83},
+  {CC1101_MDMCFG2,     0x10},
+  {CC1101_MDMCFG1,     0x62},
+  {CC1101_DEVIATN,     0x15},
+  {CC1101_MCSM0,       0x18},
+  {CC1101_FOCCFG,      0x16},
+  {CC1101_WORCTRL,     0xFB},
+  {CC1101_FSCAL3,      0xE9},
+  {CC1101_FSCAL2,      0x2A},
+  {CC1101_FSCAL1,      0x00},
+  {CC1101_FSCAL0,      0x1F},
+  {CC1101_TEST2,       0x81},
+  {CC1101_TEST1,       0x35},
+  {CC1101_TEST0,       0x09},
 };
 
 void PinSetup()
@@ -107,7 +119,6 @@ void CC1101BeginTransaction()
     // The status byte contains key status signals, useful for the MCU. The first bit, s7, is the CHIP_RDYn signal and this signal must go low before the first positive edge of SCLK. 
     // The CHIP_RDYn signal indicates that the crystal is running. Bits 6, 5, and 4 comprise the STATE value.
     while (digitalRead(PIN_SPI_MISO) == HIGH);
-    delay(1);
 }
 
 void CC1101EndTransaction()
@@ -127,13 +138,13 @@ void CC1101WriteByte(const byte& address, const byte& data)
 byte CC1101ReadByte(const byte& address)
 {
     CC1101BeginTransaction();
-    SPI.transfer(address | 0x80); // +0x80 - read single byte
+    SPI.transfer(address | 0xC0); // +0xC0 - read burst
     byte result{ SPI.transfer(0) };
     CC1101EndTransaction();
     return result;
 }
 
-//Тут расшифровываем статус байт//void C1101Status(byte _ST) //{//    byte _Val = 0;//    _Val = _ST & 240;//    _Val = _Val >> 4;//    _ST = _ST & 14;//    _ST = _ST >> 1;//    Serial.println("============================");//    if (_ST == 0) { Serial.println("IDLE"); }//    if (_ST == 1) { Serial.println("RX"); }//    if (_ST == 2) { Serial.println("TX"); }//    if (_ST == 3) { Serial.println("Fast TX ready"); }//    if (_ST == 4) { Serial.println("Frequency synthesizer calibration is running"); }//    if (_ST == 5) { Serial.println("PLL is settling"); }//    if (_ST == 6) { Serial.println("RX FIFO has overflowed. Read out any useful data, then flush the FIFO with SFRX"); }//    if (_ST == 7) { Serial.println("TX FIFO has underflowed. Acknowledge with SFTX"); }//    Serial.print("bytes available ");//    Serial.println(_Val, DEC);//    Serial.println("============================");//}
+//Тут расшифровываем статус байтvoid CC1101Status(byte status) {    byte fifo_bytes_available{ status & B1111 };    status = status >> 4;    byte state{ status & B111 };    status = status >> 4;    byte chip_rdyn{ status };    Serial.print(" CHIP_RDYn: ");    Serial.print(chip_rdyn,BIN);    Serial.print(" STATE: ");    Serial.print(state, BIN);    Serial.print(" FIFO_BYTES_AVALIABLE: ");    Serial.println(fifo_bytes_available, DEC);    //byte _Val = 0;    //_Val = _ST & 240;    //_Val = _Val >> 4;    //_ST = _ST & 14;    //_ST = _ST >> 1;    //if (_ST == 0) { Serial.println("IDLE"); }    //if (_ST == 1) { Serial.println("RX"); }    //if (_ST == 2) { Serial.println("TX"); }    //if (_ST == 3) { Serial.println("Fast TX ready"); }    //if (_ST == 4) { Serial.println("Frequency synthesizer calibration is running"); }    //if (_ST == 5) { Serial.println("PLL is settling"); }    //if (_ST == 6) { Serial.println("RX FIFO has overflowed. Read out any useful data, then flush the FIFO with SFRX"); }    //if (_ST == 7) { Serial.println("TX FIFO has underflowed. Acknowledge with SFTX"); }    //Serial.print("bytes available ");    //Serial.println(_Val, DEC);}
 
 void CC1101SetupTransmitter()
 {
@@ -141,9 +152,10 @@ void CC1101SetupTransmitter()
 	uint8_t cc1101_config_size{ sizeof(preferredSettings) / sizeof(preferredSettings[0]) };
     for (int i = 0; i < cc1101_config_size; i++)
         CC1101WriteByte(preferredSettings[i].address, preferredSettings[i].data);
-    //CC1101CommandStrobe(SIDLE); // Ждущий режим
-    //CC1101CommandStrobe(SFRX); // Очищаем буфер
-    //CC1101CommandStrobe(SFSTXON); // Запускаем синтезатор частоты
+    CC1101CommandStrobe(SIDLE); // Ждущий режим
+    CC1101CommandStrobe(SFRX); // Очищаем буфер
+    CC1101CommandStrobe(SFTX); // Очищаем буфер
+    CC1101CommandStrobe(SFSTXON); // Запускаем синтезатор частоты
 }
 
 void setup() 
@@ -151,13 +163,12 @@ void setup()
     PinSetup();
     Serial.begin(9600);
     CC1101SetupTransmitter();
-
-    Serial.println();    Serial.println();    Serial.println("----------");
-    Serial.println(CC1101ReadByte(CC1101_FIFOTHR), HEX);}
+}
 
 void loop() 
 {
-    Serial.println();
-    CC1101BeginTransaction();
-    SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    SPI.transfer(0xFF); // Данные    CC1101EndTransaction();    Serial.println(CC1101ReadByte(0x3A), DEC); //Выводим кол-во байт в ТХ Фифо    //CC1101CommandStrobe(STX); //Запускаем передачу строблом STX и выводим статус байт. всегда пишет андерфловед    //Serial.println(CC1101ReadByte(0x3A), DEC); //Опять выводим кол-во байт в ТХ фифо и убеждаемся, что число уменьшилось на число байт в пакете, или 0 - если длина пакета переменная    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее    Serial.println(CC1101ReadByte(0x3A), DEC); //Выводим кол-во байт в ТХ Фифо    delay(100);}
+	Serial.println("----------------------------------------------------------------------");
+	CC1101BeginTransaction();
+    Serial.println(" Write TX:");
+    CC1101Status(SPI.transfer(0x3F | 0x40)); // 0x7F: Burst access to TX FIFO
+    CC1101Status(SPI.transfer(0x01)); // Данные    CC1101EndTransaction();    Serial.println("TX:");    Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    Serial.println("STX:");	CC1101Status(CC1101CommandStrobe(STX));    Serial.println("TX:");    Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    Serial.println("SFTX:");    CC1101Status(CC1101CommandStrobe(SFTX)); //Очищаем ТХ фифо. Выкидываем все лишнее    Serial.println("TX:");    Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(100);}

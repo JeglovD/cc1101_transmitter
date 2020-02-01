@@ -33,19 +33,21 @@ static const registerSetting_t preferredSettings[] =
 {
   {CC1101_IOCFG0,      0x06},
   {CC1101_FIFOTHR,     0x47},
-  {CC1101_PKTCTRL0,    0x07},
+  {CC1101_PKTLEN,      0x02},
+  {CC1101_PKTCTRL0,    0x04},
   {CC1101_FSCTRL1,     0x06},
   {CC1101_FREQ2,       0x10},
-  {CC1101_FREQ1,       0xB0},
-  {CC1101_FREQ0,       0x3F},
+  {CC1101_FREQ1,       0xB1},
+  {CC1101_FREQ0,       0x3A},
   {CC1101_MDMCFG4,     0xF5},
   {CC1101_MDMCFG3,     0x83},
-  {CC1101_MDMCFG2,     0x10},
-  {CC1101_MDMCFG1,     0x62},
+  {CC1101_MDMCFG2,     0x30},
+  {CC1101_MDMCFG1,     0x42},
   {CC1101_DEVIATN,     0x15},
   {CC1101_MCSM0,       0x18},
   {CC1101_FOCCFG,      0x16},
   {CC1101_WORCTRL,     0xFB},
+  {CC1101_FREND0,      0x11},
   {CC1101_FSCAL3,      0xE9},
   {CC1101_FSCAL2,      0x2A},
   {CC1101_FSCAL1,      0x00},
@@ -167,8 +169,8 @@ void setup()
 
 void loop() 
 {
-	Serial.println("----------------------------------------------------------------------");
+	//Serial.println("----------------------------------------------------------------------");
 	CC1101BeginTransaction();
-    Serial.println(" Write TX:");
-    CC1101Status(SPI.transfer(0x3F | 0x40)); // 0x7F: Burst access to TX FIFO
-    CC1101Status(SPI.transfer(0x01)); // Данные    CC1101EndTransaction();    Serial.println("TX:");    Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    Serial.println("STX:");	CC1101Status(CC1101CommandStrobe(STX));    Serial.println("TX:");    Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    Serial.println("SFTX:");    CC1101Status(CC1101CommandStrobe(SFTX)); //Очищаем ТХ фифо. Выкидываем все лишнее    Serial.println("TX:");    Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(100);}
+    //Serial.println(" Write TX:");
+    SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
+    SPI.transfer(0x50); // Данные    SPI.transfer(0x50); // Данные    CC1101EndTransaction();    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("STX:");	CC1101CommandStrobe(STX);    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("SFTX:");    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(15);}

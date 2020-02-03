@@ -20,7 +20,7 @@ const byte SPWD{ 0x39 };    // Enter power down mode when CSn goes high.
 const byte SFRX{ 0x3A };    // Очистить буфер RX FIFO. Выполняйте SFRX в состояниях IDLE or RXFIFO_OVERFLOW.
 const byte SFTX{ 0x3B };    // Очистить буфер TX FIFO. Выполнять SFTX в состояниях IDLE or TXFIFO_UNDERFLOW.
 const byte SWORRST{ 0x3C }; // Reset real time clock to Event1 value.
-const byte SNOP{ 0x3D };    // No operation.May be used to get access to the chip status byte.// cc1101 Configuration Registersconst byte CC1101_IOCFG2{ 0x00 };const byte CC1101_IOCFG1{ 0x01 };const byte CC1101_IOCFG0{ 0x02 };const byte CC1101_FIFOTHR{ 0x03 };const byte CC1101_SYNC1{ 0x04 };const byte CC1101_SYNC0{ 0x05 };const byte CC1101_PKTLEN{ 0x01 };const byte CC1101_PKTCRTL1{ 0x00 };const byte CC1101_PKTCTRL0{ 0x00 };const byte CC1101_ADDR{ 0x09 };const byte CC1101_CHANNR{ 0x0A };const byte CC1101_FSCTRL1{ 0x0B };const byte CC1101_FSCTRL0{ 0x0C };const byte CC1101_FREQ2{ 0x0D };const byte CC1101_FREQ1{ 0x0E };const byte CC1101_FREQ0{ 0x0F };const byte CC1101_MDMCFG4{ 0x10 };const byte CC1101_MDMCFG3{ 0x11 };const byte CC1101_MDMCFG2{ 0x12 };const byte CC1101_MDMCFG1{ 0x13 };const byte CC1101_MDMCFG0{ 0x14 };const byte CC1101_DEVIATN{ 0x15 };const byte CC1101_MCSM2{ 0x16 };const byte CC1101_MCSM1{ 0x17 };const byte CC1101_MCSM0{ 0x18 };const byte CC1101_FOCCFG{ 0x19 };const byte CC1101_BSCFG{ 0x1A };const byte CC1101_AGCCTRL2{ 0x1B };const byte CC1101_AGCCTRL1{ 0x1C };const byte CC1101_AGCCTRL0{ 0x1D };const byte CC1101_WOREVT1{ 0x1E };const byte CC1101_WOREVT0{ 0x1F };const byte CC1101_WORCTRL{ 0x20 };const byte CC1101_FREND1{ 0x21 };const byte CC1101_FREND0{ 0x22 };const byte CC1101_FSCAL3{ 0x23 };const byte CC1101_FSCAL2{ 0x24 };const byte CC1101_FSCAL1{ 0x25 };const byte CC1101_FSCAL0{ 0x26 };const byte CC1101_RCCTRL1{ 0x27 };const byte CC1101_RCCTRL0{ 0x28 };const byte CC1101_FSTEST{ 0x29 };const byte CC1101_PTEST{ 0x2A };const byte CC1101_AGCTEST{ 0x2B };const byte CC1101_TEST2{ 0x2C };const byte CC1101_TEST1{ 0x2D };const byte CC1101_TEST0{ 0x2E };
+const byte SNOP{ 0x3D };    // No operation.May be used to get access to the chip status byte.// cc1101 Configuration Registersconst byte CC1101_IOCFG2{ 0x00 };const byte CC1101_IOCFG1{ 0x01 };const byte CC1101_IOCFG0{ 0x02 };const byte CC1101_FIFOTHR{ 0x03 };const byte CC1101_SYNC1{ 0x04 };const byte CC1101_SYNC0{ 0x05 };const byte CC1101_PKTLEN{ 0x06 };const byte CC1101_PKTCRTL1{ 0x07 };const byte CC1101_PKTCTRL0{ 0x08 };const byte CC1101_ADDR{ 0x09 };const byte CC1101_CHANNR{ 0x0A };const byte CC1101_FSCTRL1{ 0x0B };const byte CC1101_FSCTRL0{ 0x0C };const byte CC1101_FREQ2{ 0x0D };const byte CC1101_FREQ1{ 0x0E };const byte CC1101_FREQ0{ 0x0F };const byte CC1101_MDMCFG4{ 0x10 };const byte CC1101_MDMCFG3{ 0x11 };const byte CC1101_MDMCFG2{ 0x12 };const byte CC1101_MDMCFG1{ 0x13 };const byte CC1101_MDMCFG0{ 0x14 };const byte CC1101_DEVIATN{ 0x15 };const byte CC1101_MCSM2{ 0x16 };const byte CC1101_MCSM1{ 0x17 };const byte CC1101_MCSM0{ 0x18 };const byte CC1101_FOCCFG{ 0x19 };const byte CC1101_BSCFG{ 0x1A };const byte CC1101_AGCCTRL2{ 0x1B };const byte CC1101_AGCCTRL1{ 0x1C };const byte CC1101_AGCCTRL0{ 0x1D };const byte CC1101_WOREVT1{ 0x1E };const byte CC1101_WOREVT0{ 0x1F };const byte CC1101_WORCTRL{ 0x20 };const byte CC1101_FREND1{ 0x21 };const byte CC1101_FREND0{ 0x22 };const byte CC1101_FSCAL3{ 0x23 };const byte CC1101_FSCAL2{ 0x24 };const byte CC1101_FSCAL1{ 0x25 };const byte CC1101_FSCAL0{ 0x26 };const byte CC1101_RCCTRL1{ 0x27 };const byte CC1101_RCCTRL0{ 0x28 };const byte CC1101_FSTEST{ 0x29 };const byte CC1101_PTEST{ 0x2A };const byte CC1101_AGCTEST{ 0x2B };const byte CC1101_TEST2{ 0x2C };const byte CC1101_TEST1{ 0x2D };const byte CC1101_TEST0{ 0x2E };
 
 struct registerSetting_t
 {
@@ -31,23 +31,21 @@ struct registerSetting_t
 
 static const registerSetting_t preferredSettings[] =
 {
+  {CC1101_IOCFG2,      0x05},
   {CC1101_IOCFG0,      0x06},
   {CC1101_FIFOTHR,     0x47},
-  {CC1101_PKTLEN,      0x02},
-  {CC1101_PKTCTRL0,    0x04},
+  {CC1101_PKTCTRL0,    0x06},
   {CC1101_FSCTRL1,     0x06},
   {CC1101_FREQ2,       0x10},
-  {CC1101_FREQ1,       0xB1},
-  {CC1101_FREQ0,       0x3A},
+  {CC1101_FREQ1,       0xB0},
+  {CC1101_FREQ0,       0x3F},
   {CC1101_MDMCFG4,     0xF5},
-  {CC1101_MDMCFG3,     0x83},
-  {CC1101_MDMCFG2,     0x30},
-  {CC1101_MDMCFG1,     0x42},
-  {CC1101_DEVIATN,     0x15},
+  {CC1101_MDMCFG3,     0x43},
+  {CC1101_MDMCFG2,     0x70},
+  {CC1101_DEVIATN,     0x12},
   {CC1101_MCSM0,       0x18},
   {CC1101_FOCCFG,      0x16},
   {CC1101_WORCTRL,     0xFB},
-  {CC1101_FREND0,      0x11},
   {CC1101_FSCAL3,      0xE9},
   {CC1101_FSCAL2,      0x2A},
   {CC1101_FSCAL1,      0x00},
@@ -121,12 +119,14 @@ void CC1101BeginTransaction()
     // The status byte contains key status signals, useful for the MCU. The first bit, s7, is the CHIP_RDYn signal and this signal must go low before the first positive edge of SCLK. 
     // The CHIP_RDYn signal indicates that the crystal is running. Bits 6, 5, and 4 comprise the STATE value.
     while (digitalRead(PIN_SPI_MISO) == HIGH);
+    delay(2);
 }
 
 void CC1101EndTransaction()
 {
     digitalWrite(PIN_SPI_SS, HIGH);
     SPI.endTransaction();
+    delay(2);
 }
 
 void CC1101WriteByte(const byte& address, const byte& data)
@@ -154,9 +154,9 @@ void CC1101SetupTransmitter()
 	uint8_t cc1101_config_size{ sizeof(preferredSettings) / sizeof(preferredSettings[0]) };
     for (int i = 0; i < cc1101_config_size; i++)
         CC1101WriteByte(preferredSettings[i].address, preferredSettings[i].data);
-    CC1101CommandStrobe(SIDLE); // Ждущий режим
-    CC1101CommandStrobe(SFRX); // Очищаем буфер
-    CC1101CommandStrobe(SFTX); // Очищаем буфер
+    //CC1101CommandStrobe(SIDLE); // Ждущий режим
+    //CC1101CommandStrobe(SFRX); // Очищаем буфер
+    //CC1101CommandStrobe(SFTX); // Очищаем буфер
     CC1101CommandStrobe(SFSTXON); // Запускаем синтезатор частоты
 }
 
@@ -169,8 +169,7 @@ void setup()
 
 void loop() 
 {
-	//Serial.println("----------------------------------------------------------------------");
-	CC1101BeginTransaction();
-    //Serial.println(" Write TX:");
+    //Serial.println("\n----------------------------------------------------------------------");
+    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее    CC1101BeginTransaction();
     SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    SPI.transfer(0x50); // Данные    SPI.transfer(0x50); // Данные    CC1101EndTransaction();    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("STX:");	CC1101CommandStrobe(STX);    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("SFTX:");    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(15);}
+    SPI.transfer(0xF0); // Данные    SPI.transfer(0xAA); // Данные    CC1101EndTransaction();    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("STX:");	CC1101CommandStrobe(STX);    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("SFTX:");    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(1000);}

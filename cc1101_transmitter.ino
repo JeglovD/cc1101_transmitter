@@ -34,18 +34,15 @@ static const registerSetting_t preferredSettings[] =
   {CC1101_IOCFG2,      0x05},
   {CC1101_IOCFG0,      0x06},
   {CC1101_FIFOTHR,     0x47},
-  {CC1101_PKTCTRL0,    0x06},
-  {CC1101_CHANNR,      0x02},
+  {CC1101_PKTCTRL0,    0x05},
   {CC1101_FSCTRL1,     0x06},
   {CC1101_FREQ2,       0x10},
-  {CC1101_FREQ1,       0x09},
-  {CC1101_FREQ0,       0x7B},
+  {CC1101_FREQ1,       0xB0},
+  {CC1101_FREQ0,       0x3F},
   {CC1101_MDMCFG4,     0xF5},
-  {CC1101_MDMCFG3,     0x75},
-  {CC1101_MDMCFG2,     0x30},
-  {CC1101_MDMCFG1,     0x02},
-  {CC1101_MDMCFG0,     0xE5},
-  {CC1101_DEVIATN,     0x14},
+  {CC1101_MDMCFG3,     0x83},
+  {CC1101_MDMCFG2,     0x34},
+  {CC1101_DEVIATN,     0x15},
   {CC1101_MCSM0,       0x18},
   {CC1101_FOCCFG,      0x16},
   {CC1101_WORCTRL,     0xFB},
@@ -154,6 +151,9 @@ byte CC1101ReadByte(const byte& address)
 
 void CC1101SetupTransmitter()
 {
+    // Сброс
+    CC1101CommandStrobe(SRES);
+
     // Инициализируем регистры
 	uint8_t cc1101_config_size{ sizeof(preferredSettings) / sizeof(preferredSettings[0]) };
     for (int i = 0; i < cc1101_config_size; i++)
@@ -161,7 +161,9 @@ void CC1101SetupTransmitter()
     //CC1101CommandStrobe(SIDLE); // Ждущий режим
     //CC1101CommandStrobe(SFRX); // Очищаем буфер
     //CC1101CommandStrobe(SFTX); // Очищаем буфер
-    CC1101CommandStrobe(SFSTXON); // Запускаем синтезатор частоты
+    
+    // Запускаем синтезатор частоты
+    CC1101CommandStrobe(SFSTXON); 
 }
 
 void setup() 
@@ -174,6 +176,19 @@ void setup()
 void loop() 
 {
     //Serial.println("\n----------------------------------------------------------------------");
-    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее    CC1101BeginTransaction();
+
+    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее
+
+    CC1101BeginTransaction();
     SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    SPI.transfer(0xFF); // Данные    SPI.transfer(0xFF); // Данные    SPI.transfer(0xFF); // Данные    //SPI.transfer(0xFF); // Данные    SPI.transfer(0x00); // Данные    //SPI.transfer(0x00); // Данные    SPI.transfer(0xFF); // Данные    //SPI.transfer(0xFF); // Данные    //SPI.transfer(0xFF); // Данные    //SPI.transfer(0xFF); // Данные    CC1101EndTransaction();    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("STX:");	CC1101CommandStrobe(STX);    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("SFTX:");    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(1000);}
+    SPI.transfer(0x05);    SPI.transfer(0xff);    SPI.transfer(0xff);    SPI.transfer(0x04);    SPI.transfer(0x93);    SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0x6d);    //SPI.transfer(0x22);    //SPI.transfer(0x68);    //SPI.transfer(0x93);    //SPI.transfer(0x46);    //SPI.transfer(0xda);    //SPI.transfer(0x23);    //SPI.transfer(0x44);    //SPI.transfer(0x88);    //SPI.transfer(0xd1);    //SPI.transfer(0x23);    CC1101EndTransaction();	CC1101CommandStrobe(STX);    delay(1000);    //CC1101BeginTransaction();
+    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
+    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x89);    //SPI.transfer(0xb6);    //SPI.transfer(0xd1);    //SPI.transfer(0x26);    //SPI.transfer(0xd2);    //SPI.transfer(0x6d);    //SPI.transfer(0x24);    //SPI.transfer(0xd2);    //SPI.transfer(0x4d);    //SPI.transfer(0x36);    //SPI.transfer(0xd2);    //SPI.transfer(0x68);    //SPI.transfer(0x92);    //SPI.transfer(0x69);    //SPI.transfer(0x26);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
+    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
+    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xd2);    //SPI.transfer(0x4c);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
+    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
+    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xdb);    //SPI.transfer(0x68);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
+    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
+    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xdb);    //SPI.transfer(0x68);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
+    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
+    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xdb);    //SPI.transfer(0x68);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("SFTX:");    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(1000);}

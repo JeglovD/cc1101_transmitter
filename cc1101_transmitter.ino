@@ -28,6 +28,27 @@ struct registerSetting_t
     byte data;
 };
 
+// Address Config = No address check 
+// Base Frequency = 433.899994 
+// CRC Autoflush = false 
+// CRC Enable = true 
+// Carrier Frequency = 433.899994 
+// Channel Number = 0 
+// Channel Spacing = 199.951172 
+// Data Format = Normal mode 
+// Data Rate = 3.00026 
+// Deviation = 5.157471 
+// Device Address = 0 
+// Manchester Enable = false 
+// Modulation Format = ASK/OOK 
+// PA Ramping = false 
+// Packet Length = 255 
+// Packet Length Mode = Infinite packet length mode 
+// Preamble Count = 4 
+// RX Filter BW = 58.035714 
+// Sync Word Qualifier Mode = No preamble/sync 
+// TX Power = 0 
+// Whitening = false 
 
 static const registerSetting_t preferredSettings[] =
 {

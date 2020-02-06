@@ -31,17 +31,16 @@ struct registerSetting_t
 
 static const registerSetting_t preferredSettings[] =
 {
-  {CC1101_IOCFG2,      0x05},
   {CC1101_IOCFG0,      0x06},
   {CC1101_FIFOTHR,     0x47},
-  {CC1101_PKTCTRL0,    0x05},
+  {CC1101_PKTCTRL0,    0x06},
   {CC1101_FSCTRL1,     0x06},
   {CC1101_FREQ2,       0x10},
   {CC1101_FREQ1,       0xB0},
   {CC1101_FREQ0,       0x3F},
-  {CC1101_MDMCFG4,     0xF5},
-  {CC1101_MDMCFG3,     0x83},
-  {CC1101_MDMCFG2,     0x34},
+  {CC1101_MDMCFG4,     0xF6},
+  {CC1101_MDMCFG3,     0xE4},
+  {CC1101_MDMCFG2,     0x30},
   {CC1101_DEVIATN,     0x15},
   {CC1101_MCSM0,       0x18},
   {CC1101_FOCCFG,      0x16},

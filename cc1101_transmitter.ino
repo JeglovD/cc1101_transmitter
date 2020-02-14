@@ -20,7 +20,7 @@ const byte SPWD{ 0x39 };    // Enter power down mode when CSn goes high.
 const byte SFRX{ 0x3A };    // Очистить буфер RX FIFO. Выполняйте SFRX в состояниях IDLE or RXFIFO_OVERFLOW.
 const byte SFTX{ 0x3B };    // Очистить буфер TX FIFO. Выполнять SFTX в состояниях IDLE or TXFIFO_UNDERFLOW.
 const byte SWORRST{ 0x3C }; // Reset real time clock to Event1 value.
-const byte SNOP{ 0x3D };    // No operation.May be used to get access to the chip status byte.// cc1101 Configuration Registersconst byte CC1101_IOCFG2{ 0x00 };const byte CC1101_IOCFG1{ 0x01 };const byte CC1101_IOCFG0{ 0x02 };const byte CC1101_FIFOTHR{ 0x03 };const byte CC1101_SYNC1{ 0x04 };const byte CC1101_SYNC0{ 0x05 };const byte CC1101_PKTLEN{ 0x06 };const byte CC1101_PKTCRTL1{ 0x07 };const byte CC1101_PKTCTRL0{ 0x08 };const byte CC1101_ADDR{ 0x09 };const byte CC1101_CHANNR{ 0x0A };const byte CC1101_FSCTRL1{ 0x0B };const byte CC1101_FSCTRL0{ 0x0C };const byte CC1101_FREQ2{ 0x0D };const byte CC1101_FREQ1{ 0x0E };const byte CC1101_FREQ0{ 0x0F };const byte CC1101_MDMCFG4{ 0x10 };const byte CC1101_MDMCFG3{ 0x11 };const byte CC1101_MDMCFG2{ 0x12 };const byte CC1101_MDMCFG1{ 0x13 };const byte CC1101_MDMCFG0{ 0x14 };const byte CC1101_DEVIATN{ 0x15 };const byte CC1101_MCSM2{ 0x16 };const byte CC1101_MCSM1{ 0x17 };const byte CC1101_MCSM0{ 0x18 };const byte CC1101_FOCCFG{ 0x19 };const byte CC1101_BSCFG{ 0x1A };const byte CC1101_AGCCTRL2{ 0x1B };const byte CC1101_AGCCTRL1{ 0x1C };const byte CC1101_AGCCTRL0{ 0x1D };const byte CC1101_WOREVT1{ 0x1E };const byte CC1101_WOREVT0{ 0x1F };const byte CC1101_WORCTRL{ 0x20 };const byte CC1101_FREND1{ 0x21 };const byte CC1101_FREND0{ 0x22 };const byte CC1101_FSCAL3{ 0x23 };const byte CC1101_FSCAL2{ 0x24 };const byte CC1101_FSCAL1{ 0x25 };const byte CC1101_FSCAL0{ 0x26 };const byte CC1101_RCCTRL1{ 0x27 };const byte CC1101_RCCTRL0{ 0x28 };const byte CC1101_FSTEST{ 0x29 };const byte CC1101_PTEST{ 0x2A };const byte CC1101_AGCTEST{ 0x2B };const byte CC1101_TEST2{ 0x2C };const byte CC1101_TEST1{ 0x2D };const byte CC1101_TEST0{ 0x2E };
+const byte SNOP{ 0x3D };    // No operation.May be used to get access to the chip status byte.// cc1101 Configuration Registersconst byte CC1101_IOCFG2{ 0x00 };const byte CC1101_IOCFG1{ 0x01 };const byte CC1101_IOCFG0{ 0x02 };const byte CC1101_FIFOTHR{ 0x03 };const byte CC1101_SYNC1{ 0x04 };const byte CC1101_SYNC0{ 0x05 };const byte CC1101_PKTLEN{ 0x06 };const byte CC1101_PKTCTRL1{ 0x07 };const byte CC1101_PKTCTRL0{ 0x08 };const byte CC1101_ADDR{ 0x09 };const byte CC1101_CHANNR{ 0x0A };const byte CC1101_FSCTRL1{ 0x0B };const byte CC1101_FSCTRL0{ 0x0C };const byte CC1101_FREQ2{ 0x0D };const byte CC1101_FREQ1{ 0x0E };const byte CC1101_FREQ0{ 0x0F };const byte CC1101_MDMCFG4{ 0x10 };const byte CC1101_MDMCFG3{ 0x11 };const byte CC1101_MDMCFG2{ 0x12 };const byte CC1101_MDMCFG1{ 0x13 };const byte CC1101_MDMCFG0{ 0x14 };const byte CC1101_DEVIATN{ 0x15 };const byte CC1101_MCSM2{ 0x16 };const byte CC1101_MCSM1{ 0x17 };const byte CC1101_MCSM0{ 0x18 };const byte CC1101_FOCCFG{ 0x19 };const byte CC1101_BSCFG{ 0x1A };const byte CC1101_AGCCTRL2{ 0x1B };const byte CC1101_AGCCTRL1{ 0x1C };const byte CC1101_AGCCTRL0{ 0x1D };const byte CC1101_WOREVT1{ 0x1E };const byte CC1101_WOREVT0{ 0x1F };const byte CC1101_WORCTRL{ 0x20 };const byte CC1101_FREND1{ 0x21 };const byte CC1101_FREND0{ 0x22 };const byte CC1101_FSCAL3{ 0x23 };const byte CC1101_FSCAL2{ 0x24 };const byte CC1101_FSCAL1{ 0x25 };const byte CC1101_FSCAL0{ 0x26 };const byte CC1101_RCCTRL1{ 0x27 };const byte CC1101_RCCTRL0{ 0x28 };const byte CC1101_FSTEST{ 0x29 };const byte CC1101_PTEST{ 0x2A };const byte CC1101_AGCTEST{ 0x2B };const byte CC1101_TEST2{ 0x2C };const byte CC1101_TEST1{ 0x2D };const byte CC1101_TEST0{ 0x2E };
 
 struct registerSetting_t
 {
@@ -31,12 +31,12 @@ struct registerSetting_t
 // Address Config = No address check 
 // Base Frequency = 433.899994 
 // CRC Autoflush = false 
-// CRC Enable = true 
+// CRC Enable = false 
 // Carrier Frequency = 433.899994 
 // Channel Number = 0 
 // Channel Spacing = 199.951172 
 // Data Format = Normal mode 
-// Data Rate = 3.00026 
+// Data Rate = 3.59535 
 // Deviation = 5.157471 
 // Device Address = 0 
 // Manchester Enable = false 
@@ -54,13 +54,13 @@ static const registerSetting_t preferredSettings[] =
 {
   {CC1101_IOCFG0,      0x06},
   {CC1101_FIFOTHR,     0x47},
-  {CC1101_PKTCTRL0,    0x06},
+  {CC1101_PKTCTRL1,    0x00},
+  {CC1101_PKTCTRL0,    0x02},
   {CC1101_FSCTRL1,     0x06},
   {CC1101_FREQ2,       0x10},
   {CC1101_FREQ1,       0xB0},
   {CC1101_FREQ0,       0x3F},
-  {CC1101_MDMCFG4,     0xF6},
-  {CC1101_MDMCFG3,     0xE4},
+  {CC1101_MDMCFG4,     0xF7},
   {CC1101_MDMCFG2,     0x30},
   {CC1101_DEVIATN,     0x15},
   {CC1101_MCSM0,       0x18},
@@ -112,15 +112,16 @@ void PinSetup()
     //      GND GND
     
     // --------------------------------------------------
-    // Подключение arduino - cc1101
-    //      VCC (3.3v) -   VCC (3.3v)
-    //      GND -          GND
-    //      PIN_SPI_SS -   CSN
-    //      PIN_SPI_MOSI - SI
-    //      PIN_SPI_MISO - SO
-    //      PIN_SPI_SS -   SCK
-    //      PIN_CC_GDO0 -  GD0
-    //      PIN_CC_GDO2 -  GD2
+    // Подключение
+    //      arduino             cc1101
+    //      VCC (3.3v)          VCC (3.3v)
+    //      GND                 GND
+    //      PIN_SPI_SS (10)     CSN
+    //      PIN_SPI_MOSI (11)   SI
+    //      PIN_SPI_MISO (12)   SO
+    //      PIN_SPI_SCK (13)    SCK
+    //      PIN_CC_GDO0 (3)     GD0
+    //      PIN_CC_GDO2 (2)     GD2
 }
 
 byte CC1101CommandStrobe(const byte& command)
@@ -182,6 +183,14 @@ void CC1101SetupTransmitter()
     //CC1101CommandStrobe(SFRX); // Очищаем буфер
     //CC1101CommandStrobe(SFTX); // Очищаем буфер
     
+    // Задаем форму сигналов
+    CC1101BeginTransaction();
+    // 0x7E: Burst access to PATABLE
+    SPI.transfer(0x3E | 0x40);
+    // "0" - нет сигнала
+    SPI.transfer(0x00);    // "1" - сигнал есть    SPI.transfer(0x60);
+    CC1101EndTransaction();
+
     // Запускаем синтезатор частоты
     CC1101CommandStrobe(SFSTXON); 
 }
@@ -195,20 +204,12 @@ void setup()
 
 void loop() 
 {
-    //Serial.println("\n----------------------------------------------------------------------");
+    //Очищаем ТХ фифо. Выкидываем все лишнее
+    CC1101CommandStrobe(SFTX); 
 
-    CC1101CommandStrobe(SFTX); //Очищаем ТХ фифо. Выкидываем все лишнее
+    {
+        CC1101BeginTransaction();
 
-    CC1101BeginTransaction();
-    SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    SPI.transfer(0x05);    SPI.transfer(0xff);    SPI.transfer(0xff);    SPI.transfer(0x04);    SPI.transfer(0x93);    SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0x6d);    //SPI.transfer(0x22);    //SPI.transfer(0x68);    //SPI.transfer(0x93);    //SPI.transfer(0x46);    //SPI.transfer(0xda);    //SPI.transfer(0x23);    //SPI.transfer(0x44);    //SPI.transfer(0x88);    //SPI.transfer(0xd1);    //SPI.transfer(0x23);    CC1101EndTransaction();	CC1101CommandStrobe(STX);    delay(1000);    //CC1101BeginTransaction();
-    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x89);    //SPI.transfer(0xb6);    //SPI.transfer(0xd1);    //SPI.transfer(0x26);    //SPI.transfer(0xd2);    //SPI.transfer(0x6d);    //SPI.transfer(0x24);    //SPI.transfer(0xd2);    //SPI.transfer(0x4d);    //SPI.transfer(0x36);    //SPI.transfer(0xd2);    //SPI.transfer(0x68);    //SPI.transfer(0x92);    //SPI.transfer(0x69);    //SPI.transfer(0x26);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
-    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xd2);    //SPI.transfer(0x4c);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
-    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xdb);    //SPI.transfer(0x68);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
-    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xdb);    //SPI.transfer(0x68);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //delay(1000);    //CC1101BeginTransaction();
-    //SPI.transfer(0x3F | 0x40); // 0x7F: Burst access to TX FIFO
-    //SPI.transfer(0xff);    //SPI.transfer(0xff);    //SPI.transfer(0x04);    //SPI.transfer(0x93);    //SPI.transfer(0x6d);    //SPI.transfer(0xa2);    //SPI.transfer(0x4d);    //SPI.transfer(0xa4);    //SPI.transfer(0xda);    //SPI.transfer(0x49);    //SPI.transfer(0xa4);    //SPI.transfer(0x9a);    //SPI.transfer(0x6d);    //SPI.transfer(0xa4);    //SPI.transfer(0xd1);    //SPI.transfer(0x24);    //SPI.transfer(0xdb);    //SPI.transfer(0x68);    //CC1101EndTransaction();    //CC1101CommandStrobe(STX);    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    //Serial.println("SFTX:");    //Serial.println("TX:");    //Serial.println(CC1101ReadByte(0x3A), DEC); // Выводим кол-во байт в ТХ Фифо    delay(1000);}
+        // 0x7F: Burst access to TX FIFO
+        SPI.transfer(0x3F | 0x40);
+                SPI.transfer(0xff);        SPI.transfer(0xff);        SPI.transfer(0x81);        SPI.transfer(0x11);        SPI.transfer(0x1d);        SPI.transfer(0xdd);        SPI.transfer(0xd1);        SPI.transfer(0x11);        SPI.transfer(0xdd);        SPI.transfer(0x11);        SPI.transfer(0xdd);        SPI.transfer(0x11);        SPI.transfer(0x1d);        SPI.transfer(0x11);        SPI.transfer(0x1d);        SPI.transfer(0x1d);        SPI.transfer(0xdd);        SPI.transfer(0x11);        SPI.transfer(0xd1);        SPI.transfer(0x11);        SPI.transfer(0x1d);        SPI.transfer(0x11);        SPI.transfer(0x1c);        SPI.transfer(0x00);        SPI.transfer(0x00);        CC1101EndTransaction();    }    // Запускаем передачу    CC1101CommandStrobe(STX);    delay(1000);}
